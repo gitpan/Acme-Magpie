@@ -1,18 +1,21 @@
 package Acme::Magpie;
 use strict;
-use vars qw/$VERSION %Nest/;
-$VERSION = 0.04;
+use vars qw/$VERSION %Nest %symtab/;
+$VERSION = 0.05;
 
+use constant debug => 0;
 use Devel::Symdump;
 
 sub import {
     my $self = shift;
     for my $sym ( sort Devel::Symdump->rnew('main')->functions() ) {
         next if $sym =~ /^Acme::Magpie/;
+        print "$sym\n" if debug;
 
         if ( $self->shiny($sym) ) {
+            print "stealing $sym\n" if debug;
             my ($pkg, $name) = $sym =~ /^(.*::)(.*)$/;
-            our %symtab;
+            local %symtab;
             {
                 no strict 'refs';
                 *symtab = \%{ $pkg };
@@ -25,7 +28,7 @@ sub import {
 sub unimport {
    for my $sym (sort keys %Nest) {
        my ($pkg, $name) = $sym =~ /^(.*::)(.*)$/;
-       our %symtab;
+       local %symtab;
        {
            no strict 'refs';
            *symtab = \%{ $pkg };
@@ -54,7 +57,7 @@ Acme::Magpie - steals shiny things
  no Acme::Magpie;
  # phew, they're back now
 
-=head1 DISCUSSION
+=head1 DESCRIPTION
 
 The Magpie is a bird known for stealing shiny things to build its nest
 from, Acme::Magpie attempts to be a software emulation of this
@@ -87,28 +90,6 @@ the subroutines it tries to execute just won't be there.  This is
 considered a feature.
 
 =head1 AUTHOR
-
-=head1 HISTORY
-
-
-=item revision 0.03 2002-05-22
-
-Rewrote tests to eliminate heisenbug caused by randomly tweaking
-symbol tables.
-
-
-=item revision 0.02 2002-05-22
-
-Bugfix release, includes spelling correction to pod.  Thanks go to
-Jonathan Paton for catching this.
-
-=item revision 0.01 2002-05-01
-
-Initial CPAN release
-
-=over
-
-=back
 
 Richard Clamp E<lt>richardc@unixbeard.netE<gt>, original idea by Tom
 Hukins

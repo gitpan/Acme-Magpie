@@ -1,5 +1,6 @@
 package Acme::Magpie::l33t;
 use strict;
+require Acme::Magpie;
 use base qw(Acme::Magpie);
 
 sub shiny {
@@ -20,7 +21,7 @@ Acme::Magpie::l33t - example child class of Acme::Magpie
  sub f00 { print "we r00lz" };
  f00(); # program breaks
 
-=head1 DISCUSSION
+=head1 DESCRIPTION
 
 This is an example of subclassing Acme::Magpie, and is so better
 documented there.

@@ -31,6 +31,6 @@ sub f00 {}
 require_ok('Acme::Magpie::l33t');
 Acme::Magpie::l33t->import;
 
-is_deeply( [ sort keys %Acme::Magpie::Nest ], [ "f00" ], "Stole f00");
+is_deeply( [ sort keys %Acme::Magpie::Nest ], [ "main::f00" ], "Stole main::f00");
 
 

@@ -1,36 +1,36 @@
 package Acme::Magpie;
 use strict;
 use vars qw/$VERSION %Nest/;
-$VERSION = 0.01;
+$VERSION = 0.02;
 
 use Devel::Symdump;
 
 sub import {
     my $self = shift;
-    for ( sort Devel::Symdump->rnew('main')->functions() ) {
-        next if /^Acme::Magpie/;
+    for my $sym ( sort Devel::Symdump->rnew('main')->functions() ) {
+        next if $sym =~ /^Acme::Magpie/;
 
-        if ( $self->shiny($_) ) {
-            my ($pkg, $name) = /^(.*::)(.*)$/;
+        if ( $self->shiny($sym) ) {
+            my ($pkg, $name) = $sym =~ /^(.*::)(.*)$/;
             our %symtab;
             {
                 no strict 'refs';
                 *symtab = \%{ $pkg };
             }
-            $Nest{ $_ } = delete $symtab{ $name };
+            $Nest{ $sym } = delete $symtab{ $name };
         }
     }
 }
 
 sub unimport {
-   for (sort keys %Nest) {
-       my ($pkg, $name) = /^(.*::)(.*)$/;
+   for my $sym (sort keys %Nest) {
+       my ($pkg, $name) = $sym =~ /^(.*::)(.*)$/;
        our %symtab;
        {
            no strict 'refs';
            *symtab = \%{ $pkg };
        }
-       $symtab{ $name } = delete $Nest{ $_ };
+       $symtab{ $name } = delete $Nest{ $sym };
    }
 }
 
@@ -56,7 +56,7 @@ Acme::Magpie - steals shiny things
 
 =head1 DISCUSSION
 
-The Magpie is a bird know for stealing shiny things to build its nest
+The Magpie is a bird known for stealing shiny things to build its nest
 from, Acme::Magpie attempts to be a software emulation of this
 behaviour.
 
@@ -87,6 +87,21 @@ the subroutines it tries to execute just won't be there.  This is
 considered a feature.
 
 =head1 AUTHOR
+
+=head1 HISTORY
+
+=item revision 0.02 2002-05-22
+
+Bugfix release, includes spelling correction to pod.  Thanks go to
+Jonathan Paton for catching this.
+
+=item revision 0.01 2002-05-01
+
+Initial CPAN release
+
+=over
+
+=back
 
 Richard Clamp E<lt>richardc@unixbeard.netE<gt>, original idea by Tom
 Hukins

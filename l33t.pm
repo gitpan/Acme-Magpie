@@ -3,7 +3,7 @@ use strict;
 use base qw(Acme::Magpie);
 
 sub shiny {
-    ($_) = $_[1] =~ /.*::(.*)/;
+    local ($_) = $_[1] =~ /.*::(.*)/;
     return tr/[0-9]// > tr/[a-z][A-Z]//;;
 }
 1;

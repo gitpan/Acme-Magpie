@@ -1,7 +1,7 @@
 package Acme::Magpie;
 use strict;
 use vars qw/$VERSION %Nest/;
-$VERSION = 0.03;
+$VERSION = 0.04;
 
 use Devel::Symdump;
 
@@ -71,8 +71,8 @@ this can be redefined by child classes:
  use base qw(Acme::Magpie);
 
  sub shiny {
-     ($_) = $_[1] =~ /.*::(.*)/;
-     return tr/[0-9]// > tr/[a-z][A-Z]//;;
+     local ($_) = $_[1] =~ /.*::(.*)/;
+     return tr/[0-9]// > tr/[a-z][A-Z]//;
  }
  1;
  __END__

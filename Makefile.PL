@@ -7,7 +7,8 @@ WriteMakefile(NAME         => 'Acme::Magpie',
                                'Magpie.pm', => '$(INST_LIBDIR)/Magpie.pm',
                                'l33t.pm',   => '$(INST_LIBDIR)/Magpie/l33t.pm',
                               },
-              PREREQ_PM => { 'Test::More' => 0 });
+              PREREQ_PM => { 'Test::More'     => 0,
+	                     'Devel::Symdump' => 0 });
 
 
 sub MY::postamble {

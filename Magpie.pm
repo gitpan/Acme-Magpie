@@ -1,7 +1,7 @@
 package Acme::Magpie;
 use strict;
 use vars qw/$VERSION %Nest/;
-$VERSION = 0.02;
+$VERSION = 0.03;
 
 use Devel::Symdump;
 
@@ -89,6 +89,13 @@ considered a feature.
 =head1 AUTHOR
 
 =head1 HISTORY
+
+
+=item revision 0.03 2002-05-22
+
+Rewrote tests to eliminate heisenbug caused by randomly tweaking
+symbol tables.
+
 
 =item revision 0.02 2002-05-22
 

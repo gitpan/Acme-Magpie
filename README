@@ -9,7 +9,7 @@ SYNOPSIS
      # phew, they're back now
 
 DISCUSSION
-    The Magpie is a bird know for stealing shiny things to build its nest
+    The Magpie is a bird known for stealing shiny things to build its nest
     from, Acme::Magpie attempts to be a software emulation of this
     behaviour.
 
@@ -39,6 +39,18 @@ BUGS
     considered a feature.
 
 AUTHOR
+HISTORY
+    revision 0.03 2002-05-22
+    Rewrote tests to eliminate heisenbug caused by randomly tweaking symbol
+    tables.
+
+    revision 0.02 2002-05-22
+    Bugfix release, includes spelling correction to pod. Thanks go to
+    Jonathan Paton for catching this.
+
+    revision 0.01 2002-05-01
+    Initial CPAN release
+
     Richard Clamp <richardc@unixbeard.net>, original idea by Tom Hukins
 
 COPYRIGHT

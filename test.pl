@@ -1,36 +1,24 @@
-#!perl -w
+#!perl
 use strict;
-use Test::More tests => 7;
+use Test::More tests => 5;
 
-# Yes this is written a bit quirkily, if we don't do this then the
-# Magpie steals the testsuite
-
-require_ok('Acme::Magpie');
-
-Acme::Magpie->import;
-
-my %nest;
-$nest{before} = { %Acme::Magpie::Nest };
-
-my ($missing) = keys %Acme::Magpie::Nest;
-my ($pkg, $name) = $missing =~ /^(.*::)(.*)$/;
-
-eval { $pkg->$name() };
-my $reallygone = $@;
-
-Acme::Magpie->unimport;
-
-$nest{after} = { %Acme::Magpie::Nest };
-
-ok(1, "Everything ran");
-ok(scalar keys %{ $nest{before} },   "Stole some things");
-ok($reallygone,                      "They were really gone");
-is(scalar keys %{ $nest{after} }, 0, "Put them back again");
+# a bit less quirky, hopefully squeeze out that heisenbug
 
 sub f00 {}
+
 require_ok('Acme::Magpie::l33t');
 Acme::Magpie::l33t->import;
 
 is_deeply( [ sort keys %Acme::Magpie::Nest ], [ "main::f00" ], "Stole main::f00");
+
+eval { main->f00() };
+ok($@, "f00 really went");
+
+Acme::Magpie->unimport;
+eval { main->f00() };
+ok(!$@, "f00 came back");
+
+ok(1, "Everything ran");
+
 
 
